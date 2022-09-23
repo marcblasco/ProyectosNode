@@ -1,5 +1,21 @@
 const mongoose = require('mongoose');
 
+let comentarioSchema = new mongoose.Schema({
+    fecha: {
+        type: Date,
+        required: true,
+        default: new Date()
+    },
+    nick: {
+        type: String,
+        required: true
+    },
+    comentario: {
+        type: String,
+        required: true
+    }
+   });
+
 let contactoSchema = new mongoose.Schema({
     titulo: {
         type: String,
@@ -25,9 +41,13 @@ let contactoSchema = new mongoose.Schema({
         required: true,
         min: 1,
         max: 90
-    }
+    },
+    comentario:[comentarioSchema]
    });
    
 
+
+  
+   
 let Libro = mongoose.model('libros', contactoSchema);
 module.exports = Libro;
