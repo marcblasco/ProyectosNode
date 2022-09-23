@@ -56,7 +56,7 @@ Libro.findByIdAndUpdate('632d70987857fb5059a981ae',
 });
 //-----añadir Autor 1 y 2
 
-let autor= new Autor({
+/*let autor= new Autor({
     nombre: 'Carlos',
     anyoNac: 1980  
  })
@@ -93,3 +93,18 @@ autor2.save().then(result =>{
 }).catch(err =>{
     console.log('error al añadir'+ err)
 })
+*/
+//-----Ej 4.3 crear libro con subdocumentos
+
+
+
+let libro5 = new Libro({
+    titulo: 'los jamones',
+    editorial: 'komanche ',
+    precio: 20,
+})
+libro5.comentario.push({
+nick:'pablo', texto:'ta guapo'
+})
+libro5.save();
+   

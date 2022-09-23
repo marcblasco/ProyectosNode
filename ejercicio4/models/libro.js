@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 let comentarioSchema = new mongoose.Schema({
     fecha: {
         type: Date,
-        required: true,
+        required: false,
         default: new Date()
     },
     nick: {
         type: String,
         required: true
     },
-    comentario: {
+    texto: {
         type: String,
         required: true
     }
