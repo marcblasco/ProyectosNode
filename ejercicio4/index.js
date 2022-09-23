@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Libro = require(__dirname + "/models/libro");
+const Autor = require(__dirname + "/models/autor");
+
 
 
 mongoose.connect('mongodb://localhost:27017/libros',
@@ -7,9 +9,8 @@ mongoose.connect('mongodb://localhost:27017/libros',
 
  let libro1= new Libro({
     titulo: 'saw',
-    autor: 'patricio '
- 
-
+    editorial: 'la comarca '
+    
 
  })
 libro1.save().then(result =>{
@@ -47,9 +48,48 @@ Libro.findByIdAndRemove('632d6e0d819bb26f43212c80')
 // update Libro
 
 Libro.findByIdAndUpdate('632d70987857fb5059a981ae',
- {$set: {titulo:'juego de ender',autor:'sponge', precio: 20}}, {new:true})
+ {$set: {titulo:'juego de ender',editorial:'sponge', precio: 20}}, {new:true})
 .then(resultado => {
  console.log("Modificado libro:", resultado);
 }).catch (error => {
  console.log("ERROR:", error);
 });
+//-----añadir Autor 1 y 2
+
+let autor= new Autor({
+    nombre: 'Carlos',
+    anyoNac: 1980  
+ })
+autor.save().then(result =>{
+    if(result){
+        let libro = new Libro({
+            titulo: 'saw 2',
+            editorial: 'la comarca ',
+            autor:result._id,
+            precio: 19
+        })
+        libro.save();
+    }
+
+}).catch(err =>{
+    console.log('error al añadir'+ err)
+})
+
+let autor2= new Autor({
+    nombre: 'Juanito',
+    anyoNac: 1980  
+ })
+autor2.save().then(result =>{
+    if(result){
+        let libro = new Libro({
+            titulo: 'saw 3',
+            editorial: 'komanche ',
+            autor:result._id,
+            precio: 20
+        })
+        libro.save();
+    }
+
+}).catch(err =>{
+    console.log('error al añadir'+ err)
+})

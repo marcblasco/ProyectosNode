@@ -7,8 +7,15 @@ let contactoSchema = new mongoose.Schema({
         minlength: 3,
         trim: true
     },
-    autor: {
+    editorial: {
         type: String,
+        required: false,
+        minlength: 0,
+        trim: true
+    },
+    autor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'autores',
         required: false,
         minlength: 0,
         trim: true
