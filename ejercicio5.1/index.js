@@ -1,12 +1,20 @@
-let personas = [
-    { nombre: "Nacho", edad: 39},
-    { nombre: "Mario", edad: 4},
-    { nombre: "Laura", edad: 2},
-    { nombre: "Nora", edad: 10}
-   ];
-   // Convertir array a JSON
-   let personasJSON = JSON.stringify(personas);
-   console.log(personasJSON);
+const express = require('express');
+const os= require('os');
+let app = express();
+app.listen(8080);
+
+
+
+app.get('/', (req, res) => {
+    res.send('Hola, bienvenido/a');
+   });
+
+app.get('/fecha', (req, res) => {
+let now= new Date();
+res.send(now);
+});   
+
+app.get('/usuario', (req, res) => {
+    res.send(os.userInfo().username);
+    });   
    
-   let personas2 = JSON.parse(personasJSON);
-console.log(personas2);
