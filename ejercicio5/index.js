@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 
 const os= require('os');
 let app = express();
+//midleware
+app.use(express.json());
 
 const Libro = require(__dirname + "/models/libro");
-const Autor = require(__dirname + "/models/autor");
 
 mongoose.connect('mongodb://localhost:27017/libros',
  {useNewUrlParser: true, useUnifiedTopology: true});
@@ -50,8 +51,46 @@ app.get('/libros/:id', (req, res) => {
     });
    });
    
+   app.post('/libros', (req, res) => {
 
+    console.log(req.body)
+    let nuevoLibro = new Libro({
+        titulo : req.body.titulo,
+        editorial : req.body.editorial,
+        precio : req.body.precio
+    });
+    nuevoLibro.save().then(resultado => {
+        res.status(200).send({ok: true, resultado: resultado});
+    }).catch(error => {
+        res.status(400).send({ok: false,error: "Error añadiendo libro"});
+    })
+});
 
+app.put('/libros/:id', (req, res) => {
+
+    Libro.findByIdAndUpdate(req.params.id, {
+        $set: {
+            titulo: req.body.titulo,
+            editorial: req.body.editorial,
+            precio: req.body.precio
+        }
+    }, {new: true}).then(resultado => {
+        if (resultado)
+            res.status(200).send({ok: true, resultado: resultado});
+        else
+            res.status(400).send({ok: false, error: "No se ha encontrado el libro para actualizar"});
+    }).catch(error => {
+        res.status(400).send({ok: false, error:"Error actualizando libro"});
+    });
+});
+   
+app.delete('/libros/:id', (req, res) => {
+    Libro.findByIdAndRemove(req.params.id).then(resultado => {
+        res.status(200).send({ok: true, resultado: resultado});
+    }).catch(error => {
+        res.status(400).send({ok: false, error:"Error eliminando libro"});
+    });
+   });
 
 
 
