@@ -6,7 +6,20 @@
     <div class="container">
         <h1>Listado de Libros</h1>
         <div>
-            <!-- Aquí mostraremos el listado -->
+            <table>
+                {% for libro in libros %}
+                    <tr>
+                        {% if loop.index % 2 == 0 %}
+                            <td class="par">{{ libro.titulo }}</td>
+                        {% else %}
+                            <td class="impar">{{ libro.titulo }}</td>
+                        {% endif %}
+                        <td><a class="btn btn-success" href="/libros/{{ libro.id }}">Ver ficha</a></td>
+                    </tr>
+                {% else %}
+                    <tr><td>No hay libros que mostrar.</td></tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
  </body>

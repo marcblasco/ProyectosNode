@@ -3,6 +3,15 @@ let Libro = require(__dirname + "/../models/libro.js");
 
 let router = express.Router();
    
+router.get('/', (req, res) => {
+    Libro.find().then(resultado => {
+    res.render('index', {libros: resultado});
+    }).catch(error => {
+    // Aquí podríamos renderizar una página de error
+    });
+   });
+    
+
 
 router.get('/libros', (req, res) => {
     Libro.find().then(resultado => {
