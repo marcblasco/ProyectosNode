@@ -9,8 +9,17 @@ router.get('/', (req, res) => {
     }).catch(error => {
     // Aquí podríamos renderizar una página de error
     });
-   });
-    
+});
+router.get('/libros/:id', (req, res) => {
+    Libro.findById(req.params.id).then(resultado => {
+        if(resultado){
+            res.render('libros_ficha', { libro: resultado});
+        }
+        else  res.render('error', { error: 'libro no encontrado'});
+    }).catch(error => {
+    // Aquí podríamos renderizar una página de error
+    });
+});
 
 
 router.get('/libros', (req, res) => {
