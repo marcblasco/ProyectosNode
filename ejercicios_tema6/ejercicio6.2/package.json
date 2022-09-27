@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^6.6.1"
+    "bootstrap": "^5.2.1",
+    "mongoose": "^6.6.1",
+    "nunjucks": "^3.2.3"
   }
 }
