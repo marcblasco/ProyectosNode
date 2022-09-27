@@ -3,6 +3,12 @@ let Libro = require(__dirname + "/../models/libro.js");
 
 let router = express.Router();
 
+router.use((req, res, next) => {
+    console.log(new Date().toString(), "Metodo:", req.method,
+        ", URL:", req.baseUrl);
+    next();
+});
+   
 
 router.get('/libros', (req, res) => {
     Libro.find().then(resultado => {
