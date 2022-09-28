@@ -1,26 +1,21 @@
-<html>
- <head>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
- </head>
- <body>
-    <div class="container">
-        <h1>Listado de Libros</h1>
-        <div>
-            <table>
-                {% for libro in libros %}
-                    <tr>
-                        {% if loop.index % 2 == 0 %}
-                            <td class="par">{{ libro.titulo }}</td>
-                        {% else %}
-                            <td class="impar">{{ libro.titulo }}</td>
-                        {% endif %}
-                        <td><a class="btn btn-success" href="/libros/{{ libro.id }}">Ver ficha</a></td>
-                    </tr>
-                {% else %}
-                    <tr><td>No hay libros que mostrar.</td></tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
- </body>
-</html>
+{% extends "base.njk" %}
+
+{% block titulo %}Libros | Listado{% endblock %}
+
+{% block contenido %}
+
+    <h1>Listado de Libros</h1>
+
+    <ul>
+        {% for libro in libros %}
+            <li>{{ libro.titulo }} 
+                <a href="/libros/{{ libro.id }}">Ficha</a>
+                <form action="/libros/{{ libro.id }}" method="post">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn btn-danger">Borrar</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

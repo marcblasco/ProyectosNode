@@ -26,5 +26,5 @@ let libroSchema = new mongoose.Schema({
 
   
    
-let Libro = mongoose.model('libros', libroSchema);
+let Libro = mongoose.model('libro', libroSchema);
 module.exports = Libro;

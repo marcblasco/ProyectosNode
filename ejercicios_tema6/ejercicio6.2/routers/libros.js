@@ -7,9 +7,15 @@ router.get('/', (req, res) => {
     Libro.find().then(resultado => {
     res.render('index', {libros: resultado});
     }).catch(error => {
-    // Aquí podríamos renderizar una página de error
+        res.status(500)
+        .send( {ok: false, error: "Error obteniendo contactos"})
     });
 });
+// Formulario de alta de contacto
+router.get('/nuevo', (req, res) => {
+    res.render('libros_nuevo');
+});
+
 router.get('/libros/:id', (req, res) => {
     Libro.findById(req.params.id).then(resultado => {
         if(resultado){
@@ -22,27 +28,6 @@ router.get('/libros/:id', (req, res) => {
 });
 
 
-router.get('/libros', (req, res) => {
-    Libro.find().then(resultado => {
-    res.status(200)
-    .send( {ok: true, resultado: resultado});
-    }).catch (error => {
-    res.status(500)
-    .send( {ok: false, error: "Error obteniendo contactos"})
- });
-});
-
-router.get('/libros/:id', (req, res) => {
-    Libro.findById(req.params.id).then(resultado => {
-    if(resultado)
-        res.status(200).send({ok: true, resultado: resultado});
-    else
-        res.status(400).send({ok: false,error: "No se han encontrado contactos"});
-    }).catch (error => {
-    res.status(400).send({ok: false,error: "Error buscando el contacto indicado"});
-    });
-   });
-
 router.post('/libros', (req, res) => {
     console.log(req.body)
     let nuevoLibro = new Libro({
@@ -51,13 +36,13 @@ router.post('/libros', (req, res) => {
         precio : req.body.precio
     });
     nuevoLibro.save().then(resultado => {
-        res.status(200).send({ok: true, resultado: resultado});
+        res.render('index', {libros: resultado});
     }).catch(error => {
         res.status(400).send({ok: false,error: "Error añadiendo libro"});
     })
 });
 
-router.put('/libros/:id', (req, res) => {
+/*router.put('/:id', (req, res) => {
 
     Libro.findByIdAndUpdate(req.params.id, {
         $set: {
@@ -74,10 +59,10 @@ router.put('/libros/:id', (req, res) => {
         res.status(400).send({ok: false, error:"Error actualizando libro"});
     });
 });
-   
+   */
 router.delete('/libros/:id', (req, res) => {
     Libro.findByIdAndRemove(req.params.id).then(resultado => {
-        res.status(200).send({ok: true, resultado: resultado});
+        res.render('index');
     }).catch(error => {
         res.status(400).send({ok: false, error:"Error eliminando libro"});
     });
