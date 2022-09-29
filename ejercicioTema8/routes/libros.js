@@ -3,6 +3,14 @@ const express = require('express');
 let Libro = require(__dirname + '/../models/libro.js');
 let router = express.Router();
 
+let autenticacion = (req, res, next) => {
+    if (req.session && req.session.usuario)
+    return next();
+    else
+    res.render('login');
+   };
+   
+
 // Listado general
 router.get('/', (req, res) => {
     Libro.find().then(resultado => {
@@ -12,12 +20,12 @@ router.get('/', (req, res) => {
 });
 
 // Formulario de nuevo libro
-router.get('/nuevo', (req, res) => {
+router.get('/nuevo',autenticacion, (req, res) => {
     res.render('libros_nuevo');
 });
 
 // Formulario de edición de libro
-router.get('/editar/:id', (req, res) => {
+router.get('/editar/:id',autenticacion, (req, res) => {
     Libro.findById(req.params['id']).then(resultado => {
         if (resultado) {
             res.render('libros_editar', {libro: resultado});
@@ -41,7 +49,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Insertar libros
-router.post('/', (req, res) => {
+router.post('/',autenticacion, (req, res) => {
     let nuevoLibro = new Libro({
         titulo: req.body.titulo,
         editorial: req.body.editorial,
@@ -55,7 +63,7 @@ router.post('/', (req, res) => {
 });
 
 // Borrar libros
-router.delete('/:id', (req, res) => {
+router.delete('/:id',autenticacion, (req, res) => {
     Libro.findByIdAndRemove(req.params.id).then(resultado => {
         res.redirect(req.baseUrl);
     }).catch(error => {
@@ -64,7 +72,7 @@ router.delete('/:id', (req, res) => {
 });
 
 // Modificar libros
-router.put('/:id', (req, res) => {
+router.put('/:id',autenticacion, (req, res) => {
     Libro.findByIdAndUpdate(req.params.id, {
         $set: {
             titulo: req.body.titulo,
