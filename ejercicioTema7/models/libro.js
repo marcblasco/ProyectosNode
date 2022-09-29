@@ -1,30 +1,22 @@
 const mongoose = require('mongoose');
 
-
 let libroSchema = new mongoose.Schema({
     titulo: {
         type: String,
         required: true,
         minlength: 3,
-        trim: true
+        trim: true         
     },
     editorial: {
-        type: String,
-        required: false,
-        minlength: 0,
-        trim: true
+        type: String
     },
     precio: {
         type: Number,
         required: true,
-        min: 1,
-        max: 90
+        min: 0
     }
-   });
-   
+});
 
+let Libro = mongoose.model('libro', libroSchema);
 
-  
-   
-let Libro = mongoose.model('libros', libroSchema);
 module.exports = Libro;
