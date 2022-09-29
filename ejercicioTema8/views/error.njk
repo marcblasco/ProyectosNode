@@ -1,18 +1,16 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="/public/css/estilos.css"/>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Error</h1>
-            <div class="alert alert-danger">
-                {% if error %}
-                    {{ error }}
-                {% else %}
-                    Error en la aplicación
-                {% endif %}
-            </div>
-        </div>
-    </body>
-</html>
+{% extends "base.njk" %}
+
+{% block titulo %}Libros | Error{% endblock %}
+
+{% block contenido %}
+
+    <h1>Error</h1>
+    <div class="alert alert-danger">
+        {% if error %}
+            {{ error }}
+        {% else %}
+            Error en la aplicación
+        {% endif %}
+    </div>
+
+{% endblock %}

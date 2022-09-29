@@ -3,7 +3,7 @@ const express = require('express');
 let Libro = require(__dirname + '/../models/libro.js');
 let router = express.Router();
 
-// Servicio de listado general
+// Listado general
 router.get('/', (req, res) => {
     Libro.find().then(resultado => {
         res.render('libros_listado', { libros: resultado});
@@ -11,7 +11,25 @@ router.get('/', (req, res) => {
     }); 
 });
 
-// Servicio de listado por id
+// Formulario de nuevo libro
+router.get('/nuevo', (req, res) => {
+    res.render('libros_nuevo');
+});
+
+// Formulario de edición de libro
+router.get('/editar/:id', (req, res) => {
+    Libro.findById(req.params['id']).then(resultado => {
+        if (resultado) {
+            res.render('libros_editar', {libro: resultado});
+        } else {
+            res.render('error', {error: "Libro no encontrado"});
+        }
+    }).catch(error => {
+        res.render('error', {error: "Libro no encontrado"});
+    });
+});
+
+// Ficha de libro
 router.get('/:id', (req, res) => {
     Libro.findById(req.params.id).then(resultado => {
         if (resultado)
@@ -22,27 +40,31 @@ router.get('/:id', (req, res) => {
     }); 
 });
 
-// Servicio para insertar libros
+// Insertar libros
 router.post('/', (req, res) => {
-
     let nuevoLibro = new Libro({
         titulo: req.body.titulo,
         editorial: req.body.editorial,
         precio: req.body.precio
     });
     nuevoLibro.save().then(resultado => {
-        res.status(200)
-           .send({ok: true, resultado: resultado});
+        res.redirect(req.baseUrl);
     }).catch(error => {
-        res.status(400)
-           .send({ok: false, 
-                  error: "Error añadiendo libro"});
+        res.render('error', {error: "Error insertando libro"});
     });
 });
 
-// Servicio para modificar libros
-router.put('/:id', (req, res) => {
+// Borrar libros
+router.delete('/:id', (req, res) => {
+    Libro.findByIdAndRemove(req.params.id).then(resultado => {
+        res.redirect(req.baseUrl);
+    }).catch(error => {
+        res.render('error', {error: "Error borrando libro"});
+    });
+});
 
+// Modificar libros
+router.put('/:id', (req, res) => {
     Libro.findByIdAndUpdate(req.params.id, {
         $set: {
             titulo: req.body.titulo,
@@ -50,35 +72,9 @@ router.put('/:id', (req, res) => {
             precio: req.body.precio
         }
     }, {new: true}).then(resultado => {
-        if (resultado)
-            res.status(200)
-               .send({ok: true, resultado: resultado});
-        else
-            res.status(400)
-               .send({ok: false, 
-                      error: "No se ha encontrado el libro para actualizar"});
+        res.redirect(req.baseUrl);
     }).catch(error => {
-        res.status(400)
-           .send({ok: false, 
-                  error:"Error actualizando libro"});
-    });
-});
-
-// Servicio para borrar libros
-router.delete('/:id', (req, res) => {
-
-    Libro.findByIdAndRemove(req.params.id).then(resultado => {
-        if (resultado)
-            res.status(200)
-               .send({ok: true, resultado: resultado});
-        else
-            res.status(400)
-               .send({ok: false, 
-                      error: "No se ha encontrado el libro para eliminar"});
-    }).catch(error => {
-        res.status(400)
-           .send({ok: true, 
-                  error:"Error eliminando libro"});
+        res.render('error', {error: "Error modificando libro"});
     });
 });
 
