@@ -36,7 +36,7 @@ router.post('/libros', (req, res) => {
         precio : req.body.precio
     });
     nuevoLibro.save().then(resultado => {
-        res.render('index', {libros: resultado});
+        res.redirect('/');
     }).catch(error => {
         res.status(400).send({ok: false,error: "Error añadiendo libro"});
     })
@@ -62,7 +62,7 @@ router.post('/libros', (req, res) => {
    */
 router.delete('/libros/:id', (req, res) => {
     Libro.findByIdAndRemove(req.params.id).then(resultado => {
-        res.render('index');
+        res.redirect('/');
     }).catch(error => {
         res.status(400).send({ok: false, error:"Error eliminando libro"});
     });

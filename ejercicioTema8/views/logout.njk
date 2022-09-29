@@ -1,0 +1,15 @@
+{% extends "base.njk" %}
+{% block titulo %}Logout{% endblock %}
+{% block contenido %}
+    <h1>Logout</h1>
+
+    {% if (error) %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form action="/logout" method="post">
+        <button type="Logout" class="btn btn-primary">
+            Cerrar Sesion
+        </button>
+    </form>
+{% endblock %}
